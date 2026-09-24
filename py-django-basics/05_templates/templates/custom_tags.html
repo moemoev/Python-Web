@@ -1,0 +1,54 @@
+{% load current_time %}
+{% load user_info %}
+{% load get_recent_posts %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+        <div class="container_1">
+            <h2>Embedded Tags</h2>
+            <div class="posts">
+                {% for post in posts %}
+                    <div class="post">
+                        <h5>{{ post.title }}</h5>
+                        {% if post.content %}
+                            <p>{{ post.content }}</p>
+                        {% else %}
+                            <p>{% lorem 3 p %}</p>
+                        {% endif %}
+                        <span>Posted by {{ post.author }} on {{ post.created_at }}</span>
+                        {% if post.id == 1 %}
+                        	<h3>Printed now at: {% current_time '%Y-%m-%d'%} </h3>
+                        {% else %}
+                            <h3>Printed now at: {% current_time %} </h3>
+                        {% endif %}
+
+                    </div>
+                {% empty %}
+                    <h2>No post!</h2>
+                {% endfor %}
+            <h3>Injecting html, with takes context true!</h3>
+            {% user_info %}
+
+            <h3>Use 'special - super' tag</h3>
+            {% get_recent_posts 3 recent_posts %}
+                {% for post in recent_posts %}
+                    <div class="post">
+                            <h5>{{ post.title }}</h5>
+                            {% if post.content %}
+                                <p>{{ post.content }}</p>
+                            {% else %}
+                                <p>{% lorem 3 p %}</p>
+                            {% endif %}
+                            <span>Posted by {{ post.author }} on {{ post.created_at }}</span>
+
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+</body>
+</html>
