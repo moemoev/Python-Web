@@ -1,0 +1,57 @@
+{% extends 'common/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        {% if book.cover_image %}
+            <div class="col-md-4">
+                <img src="{{ book.cover_image.url }}" class="img-fluid rounded shadow-sm" alt="{{ book.title }} cover">
+            </div>
+        {% else %}
+            <div class="col-md-4">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANwAAACUCAMAAADPj7eyAAAAMFBMVEX4+frw8fL7/PzF0uDL1+Pk6vDY4Orb4+vq7fLR2+bs8PTw8/b09/jh5+7+//7U3uiXdfxlAAACuElEQVR4nO3bbXOjIBiF4VQeeTf8/39bsE1DNE1gVrZznHN/206Y4RoVE2Uvl/P28dcTGBlxqBGHGnGoEYcacagRhxpxqBGHGnGoEYcacagRhxpxqBGHGnGoEYcacagRhxpxqBGHGnGoEYfaOFz03jblfRw0hVE4m0Q1J8kOmcQgnBbltGlMOyV6xCyG4CYtbg7NJ1sMsxM9HT+PEbhpFue75jp5J/PxuiFHzsnSOdNpEXf8PEbgvEj/IBF/+EQG4MpZee0ddB1xXo7B9a8OeQ0irivi+iJuN+g0uLhf9U+Dm6wsu7+dBXfxbvcr4Dy4Z4OI64y4vojbDSKus/+Fm97MHBjnjXNpCa8GoeKClpJSJvw6f1RcSCKL9XYRSXEDmG6nKyguONFhVYSiqz94mY1Z7KV8GBRXHa+ie/jcV3YCxa2en39Fd3+CF7USMcY4URoT511tW8/Rb1004uapnK35WjTxiofb2lZdWtdMrW5PpfPPOzF4Ry6vk3q7PhZd/puunrhnnVrQcPkK0/u3ITFfheXOV79NsGVdgcKFJ/e1Uj52uYf7+eTBcF6219utrFP+8YF70cHgrk/Wknvf113dNQHhXtmqNfM+CGhBWdeSF5Pd6YBwyan0+q3x7nsmDu7XteRecA/vUpFwb21fd4RqEBDuvS3fK5LcT0wgnG56bRyq9yFIuLZ5Vp86H64eRFxnxPV1dlzq32QD8sW5/NjpP3Ig26PKL3Dbu7HNijt+v+yQLYnL5of2+xH5e3TvRr+GxuyUTSL21WuPTcE+PK09rDG48sA1maUxk0Q9eZL07w3a4xxn175/Wyk3D9mgPmzrfQxzc+3bofvif5pAjTjUiEONONSIQ4041IhDjTjUiEONONSIQ4041IhDjTjUiEONONSIQ4041IhDjTjUiEONONSIQ+3jExwSGQdgdwV6AAAAAElFTkSuQmCC" class="img-fluid rounded shadow-sm" alt="{{ book.title }} cover">
+            </div>
+        {% endif %}
+        <div class="col-md-8">
+            <h1>{{ book.title }}</h1>
+            <p><strong>Genre:</strong> {{ book.genre }}</p>
+            <p><strong>Publisher:</strong> {{ book.publisher }}</p>
+            <p><strong>Publishing Date:</strong> {{ book.publishing_date }}</p>
+            <p><strong>Pages:</strong> {{ book.pages }}</p>
+            <p><strong>ISBN:</strong> {{ book.isbn }}</p>
+            <p><strong>Price:</strong> ${{ book.price }}</p>
+            {% if book.avg_rating %}
+                <p class="card-text"><strong>Average Rating:</strong> {{ book.avg_rating|floatformat:2 }}</p>
+            {% else %}
+                <p class="card-text"><strong>No ratings yet</strong></p>
+            {% endif %}
+            <p>{{ book.description }}</p>
+            <div class="d-flex gap-2 mt-4">
+                <a href="{% url 'books:edit' book.slug %}" class="btn btn-outline-primary px-4">Edit Book</a>
+                <a href="{% url 'books:delete' book.slug %}" class="btn btn-danger px-4">Delete Book</a>
+            </div>
+        </div>
+    </div>
+
+    <hr class="my-4">
+
+    <h2>Reviews</h2>
+    <div class="row">
+        {% for review in book.reviews.all %}
+        <div class="col-md-6 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Rating: {{ review.rating|floatformat:2 }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">by {{ review.author }}</h6>
+                    <p class="card-text">{{ review.body }}</p>
+                    {% if review.is_spoiler %}
+                        <p class="text-danger">This review contains spoilers</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

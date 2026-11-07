@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+.venv/
+venv/
+
+# IDE
+.idea/
+
+# Local database
+mydatabase
+db.sqlite3
+
+# Environment variables
+.env
+
+# Uploaded media
+media/
+
+# macOS
+.DS_Store

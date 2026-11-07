@@ -1,0 +1,36 @@
+{% extends 'common/base.html' %}
+
+{% block title %}
+    {{ page_title }}
+{% endblock %}
+
+{% block content %}
+     <h1>Books</h1>
+
+    {% for book in books %}
+
+        <div>
+            <h2>{{ book.title }}</h2>
+
+            <p><strong>Genre:</strong> {{ book.genre }}</p>
+            <p><strong>Price:</strong> €{{ book.price }}</p>
+            <p><strong>Publisher:</strong> {{ book.publisher }}</p>
+            {% if book.avg_rating %}
+            <p><strong>Average Rating:</strong> {{ book.avg_rating| }}</p>
+            {% else %}
+            <p><strong>No ratings yet</strong></p>
+            {% endif %}
+            <a href="{% url 'books:detail' slug=book.slug  %}">
+                View book
+            </a>
+
+        </div>
+
+        <hr>
+
+    {% empty %}
+
+        <p>No books found.</p>
+
+    {% endfor %}
+{% endblock %}

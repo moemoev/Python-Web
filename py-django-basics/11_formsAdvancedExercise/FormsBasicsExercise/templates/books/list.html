@@ -1,0 +1,45 @@
+{% extends 'common/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">Books</h1>
+    <div class="row">
+        <form>
+            <div class="input-group">
+                <input name="query" class="form-control" placeholder="Search for books" value="{{ request.GET.query }}"/>
+                <div class="input-group-append ms-2">
+                    <button class="btn btn-outline-secondary">Search</button>
+                </div>
+            </div>
+        </form>
+        {% for book in books %}
+        <div class="col-md-4 mb-4 mt-4">
+            <div class="card">
+            {% if book.cover_image %}
+            <div class="col-md-4">
+                <img src="{{ book.cover_image.url }}" class="img-fluid rounded shadow-sm" alt="{{ book.title }} cover">
+            </div>
+            {% else %}
+            <div class="col-md-4">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANwAAACUCAMAAADPj7eyAAAAMFBMVEX4+frw8fL7/PzF0uDL1+Pk6vDY4Orb4+vq7fLR2+bs8PTw8/b09/jh5+7+//7U3uiXdfxlAAACuElEQVR4nO3bbXOjIBiF4VQeeTf8/39bsE1DNE1gVrZznHN/206Y4RoVE2Uvl/P28dcTGBlxqBGHGnGoEYcacagRhxpxqBGHGnGoEYcacagRhxpxqBGHGnGoEYcacagRhxpxqBGHGnGoEYfaOFz03jblfRw0hVE4m0Q1J8kOmcQgnBbltGlMOyV6xCyG4CYtbg7NJ1sMsxM9HT+PEbhpFue75jp5J/PxuiFHzsnSOdNpEXf8PEbgvEj/IBF/+EQG4MpZee0ddB1xXo7B9a8OeQ0irivi+iJuN+g0uLhf9U+Dm6wsu7+dBXfxbvcr4Dy4Z4OI64y4vojbDSKus/+Fm97MHBjnjXNpCa8GoeKClpJSJvw6f1RcSCKL9XYRSXEDmG6nKyguONFhVYSiqz94mY1Z7KV8GBRXHa+ie/jcV3YCxa2en39Fd3+CF7USMcY4URoT511tW8/Rb1004uapnK35WjTxiofb2lZdWtdMrW5PpfPPOzF4Ry6vk3q7PhZd/puunrhnnVrQcPkK0/u3ITFfheXOV79NsGVdgcKFJ/e1Uj52uYf7+eTBcF6219utrFP+8YF70cHgrk/Wknvf113dNQHhXtmqNfM+CGhBWdeSF5Pd6YBwyan0+q3x7nsmDu7XteRecA/vUpFwb21fd4RqEBDuvS3fK5LcT0wgnG56bRyq9yFIuLZ5Vp86H64eRFxnxPV1dlzq32QD8sW5/NjpP3Ig26PKL3Dbu7HNijt+v+yQLYnL5of2+xH5e3TvRr+GxuyUTSL21WuPTcE+PK09rDG48sA1maUxk0Q9eZL07w3a4xxn175/Wyk3D9mgPmzrfQxzc+3bofvif5pAjTjUiEONONSIQ4041IhDjTjUiEONONSIQ4041IhDjTjUiEONONSIQ4041IhDjTjUiEONONSIQ+3jExwSGQdgdwV6AAAAAElFTkSuQmCC" class="img-fluid rounded shadow-sm" alt="{{ book.title }} cover">
+            </div>
+            {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ book.title|capfirst }}</h5>
+                    <p class="card-text"><strong>Genre:</strong> {{ book.genre }}</p>
+                    <p class="card-text"><strong>Price:</strong> ${{ book.price }}</p>
+                    {% if book.avg_rating %}
+                        <p class="card-text"><strong>Average Rating:</strong> {{ book.avg_rating|floatformat:2 }}</p>
+                    {% else %}
+                        <p class="card-text"><strong>No ratings yet</strong></p>
+                    {% endif %}
+                    <a href="{% url 'books:detail' book.slug %}" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+            <h1>No books available</h1>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
