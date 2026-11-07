@@ -6,3 +6,10 @@ class GenreChoices(models.TextChoices):
     FA = "fantasy", "Fantasy"
     SCI = "science", "Science"
     OT = "other", "Other"
+
+class LanguageChoices(models.TextChoices):
+    BG = "bulgarian", "Bulgarian"
+    EN = "english", "English"
+    FR = "french", "French"
+    GER = "german", "German"
+    OT = "other", "Other"
